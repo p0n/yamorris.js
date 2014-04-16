@@ -28,6 +28,7 @@ class Morris.Line extends Morris.Grid
       '#9440ed'
     ]
     lineGlow: true
+    lineCursor: 'auto'
     pointStrokeWidths: [1]
     pointStrokeColors: ['#ffffff']
     pointFillColors: []
@@ -289,6 +290,8 @@ class Morris.Line extends Morris.Grid
     line = @raphael.path(path)
       .attr('stroke', lineColor)
       .attr('stroke-width', @lineWidthForSeries(lineIndex))
+    if @options.lineCursor in ['auto', 'default', 'crosshair' , 'pointer', 'move', 'text', 'wait', 'help', 'n-resize', 's-resize', 'w-resize', 'e-resize', 'nw-resize', 'ne-resize', 'sw-resize', 'se-resize']
+      line.node.setAttribute("class","morris-cursor-"+@options.lineCursor)
     line.mouseover =>
       if @options.lineGlow is true
         @_glow = line.glow({
