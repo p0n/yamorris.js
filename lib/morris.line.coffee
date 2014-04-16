@@ -295,15 +295,21 @@ class Morris.Line extends Morris.Grid
       .attr('stroke-width', @lineWidthForSeries(lineIndex))
     if @options.lineCursor in ['auto', 'default', 'crosshair' , 'pointer', 'move', 'text', 'wait', 'help', 'n-resize', 's-resize', 'w-resize', 'e-resize', 'nw-resize', 'ne-resize', 'sw-resize', 'se-resize']
       line.node.setAttribute("class","morris-cursor-"+@options.lineCursor)
+
     line.mouseover =>
       if @options.lineGlow is true
         @_glow = line.glow({
           width: @lineWidthForSeries(lineIndex)*2
           color: lineColor
         })
+
     line.mouseout =>
       if @options.lineGlow is true
         @_glow.remove()
+
+    line.click =>
+      if typeof @options.lineClickCallback is 'function'
+        @options.lineClickCallback(lineIndex)
 
   drawLinePoint: (xPos, yPos, pointColor, lineIndex) ->
     @raphael.circle(xPos, yPos, @pointSizeForSeries(lineIndex))
