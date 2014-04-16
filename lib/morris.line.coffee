@@ -36,6 +36,7 @@ class Morris.Line extends Morris.Grid
     xLabelMargin: 24
     continuousLine: true
     hideHover: false
+    goalGlow: false
 
   # Do any size-related calculations
   #
@@ -196,6 +197,11 @@ class Morris.Line extends Morris.Grid
       circle = null
       if row._y[index]?
         circle = @drawLinePoint(row._x, row._y[index], @colorFor(row, index, 'point'), index)
+        if @options.goalGlow is true
+          if row.y[index] >= @options.goals[0]
+            circle.glow({
+              color: @colorFor(row, index, 'point')
+            })
       @seriesPoints[index].push(circle)
 
   _drawLineFor: (index) ->
