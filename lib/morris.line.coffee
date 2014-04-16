@@ -27,6 +27,7 @@ class Morris.Line extends Morris.Grid
       '#cb4b4b'
       '#9440ed'
     ]
+    lineGlow: true
     pointStrokeWidths: [1]
     pointStrokeColors: ['#ffffff']
     pointFillColors: []
@@ -285,9 +286,18 @@ class Morris.Line extends Morris.Grid
       .attr('fill', @options.gridTextColor)
 
   drawLinePath: (path, lineColor, lineIndex) ->
-    @raphael.path(path)
+    line = @raphael.path(path)
       .attr('stroke', lineColor)
       .attr('stroke-width', @lineWidthForSeries(lineIndex))
+    line.mouseover =>
+      if @options.lineGlow is true
+        @_glow = line.glow({
+          width: @lineWidthForSeries(lineIndex)*2
+          color: lineColor
+        })
+    line.mouseout =>
+      if @options.lineGlow is true
+        @_glow.remove()
 
   drawLinePoint: (xPos, yPos, pointColor, lineIndex) ->
     @raphael.circle(xPos, yPos, @pointSizeForSeries(lineIndex))
