@@ -312,10 +312,13 @@ class Morris.Line extends Morris.Grid
         @options.lineClickCallback(lineIndex)
 
   drawLinePoint: (xPos, yPos, pointColor, lineIndex) ->
-    @raphael.circle(xPos, yPos, @pointSizeForSeries(lineIndex))
+    point = @raphael.circle(xPos, yPos, @pointSizeForSeries(lineIndex))
       .attr('fill', pointColor)
       .attr('stroke-width', @pointStrokeWidthForSeries(lineIndex))
       .attr('stroke', @pointStrokeColorForSeries(lineIndex))
+    point.click =>
+      if typeof @options.pointClickCallback is 'function'
+        @options.pointClickCallback(lineIndex, xPos, yPos)
 
   # @private
   pointStrokeWidthForSeries: (index) ->
