@@ -32,6 +32,7 @@ class Morris.Line extends Morris.Grid
     pointStrokeWidths: [1]
     pointStrokeColors: ['#ffffff']
     pointFillColors: []
+    pointCursor: 'auto'
     smooth: true
     xLabels: 'auto'
     xLabelFormat: null
@@ -199,6 +200,8 @@ class Morris.Line extends Morris.Grid
       circle = null
       if row._y[index]?
         circle = @drawLinePoint(row._x, row._y[index], @colorFor(row, index, 'point'), index)
+        if @options.pointCursor in ['auto', 'default', 'crosshair' , 'pointer', 'move', 'text', 'wait', 'help', 'n-resize', 's-resize', 'w-resize', 'e-resize', 'nw-resize', 'ne-resize', 'sw-resize', 'se-resize']
+          circle.node.setAttribute("class","morris-cursor-"+@options.pointCursor)
         if @options.goalGlow is true
           if row.y[index] >= @options.goals[0]
             circle.glow({
