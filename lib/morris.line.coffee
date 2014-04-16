@@ -311,6 +311,11 @@ class Morris.Line extends Morris.Grid
       if typeof @options.lineClickCallback is 'function'
         @options.lineClickCallback(lineIndex)
 
+  drawGuidelineY: (xPos, guideLineColor) ->
+    gl = @raphael.path("M#{xPos},#{@top} L#{xPos},#{@bottom}")
+    if guideLineColor?
+      gl.attr('stroke', guideLineColor)
+
   drawLinePoint: (xPos, yPos, pointColor, lineIndex) ->
     point = @raphael.circle(xPos, yPos, @pointSizeForSeries(lineIndex))
       .attr('fill', pointColor)
