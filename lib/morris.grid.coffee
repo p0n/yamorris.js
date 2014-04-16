@@ -119,6 +119,10 @@ class Morris.Grid extends Morris.EventEmitter
       '#cc6666'
       '#663333'
     ]
+    goalFillColors: [
+      '#ffffb4'
+      '#ffe6e6'
+    ]
     events: []
     eventStrokeWidth: 1.0
     eventLineColors: [
@@ -311,6 +315,7 @@ class Morris.Grid extends Morris.EventEmitter
   redraw: ->
     @raphael.clear()
     @_calc()
+    @fillGoals()
     @drawGrid()
     @drawGoals()
     @drawEvents()
@@ -358,6 +363,11 @@ class Morris.Grid extends Morris.EventEmitter
       color = @options.goalLineColors[i % @options.goalLineColors.length]
       @drawGoal(goal, color)
 
+  fillGoals: ->
+    for goal, i in @options.goals
+      color = @options.goalFillColors[i % @options.goalFillColors.length]
+      @fillGoal(goal, color)
+
   # draw events vertical lines
   drawEvents: ->
     for event, i in @events
@@ -368,6 +378,11 @@ class Morris.Grid extends Morris.EventEmitter
     @raphael.path("M#{@left},#{@transY(goal)}H#{@right}")
       .attr('stroke', color)
       .attr('stroke-width', @options.goalStrokeWidth)
+
+  fillGoal: (goal, color) ->
+    @raphael.rect(@left,@top,@right-@left,@transY(goal)-@top)
+      .attr('fill', color)
+      .attr('stroke-width', 0)
 
   drawEvent: (event, color) ->
     @raphael.path("M#{@transX(event)},#{@bottom}V#{@top}")
